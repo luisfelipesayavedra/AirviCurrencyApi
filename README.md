@@ -1,0 +1,1 @@
+entry point: `waitress-serve --listen=*:8000 src.wsgi:app`

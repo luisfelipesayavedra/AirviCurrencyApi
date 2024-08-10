@@ -1,0 +1,1 @@
+from .currencies_controller import currencies_bp

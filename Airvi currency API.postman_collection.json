@@ -1,0 +1,389 @@
+{
+	"info": {
+		"_postman_id": "0fce49c1-cb08-422c-94de-8615bd0ad6d1",
+		"name": "Airvi currency API",
+		"description": "StartFragmentEl objetivo principal de esta API es proporcionar un servicio confiable de conversión  \nde monedas basado en el COP, garantizando la disponibilidad y precisión de la  \ninformación, incluso en caso de fallos de conectividad o cuota de uso de la API  \nprimaria.EndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5844487",
+		"_collection_link": "https://bold-spaceship-438173.postman.co/workspace/Byte4bit~7f1b9a9a-c94e-49c2-9856-ff36f58b021d/collection/5844487-0fce49c1-cb08-422c-94de-8615bd0ad6d1?action=share&source=collection_link&creator=5844487"
+	},
+	"item": [
+		{
+			"name": "Listar valores generales [SUCCESS]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validations\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    const code = Object.entries(jsonData)[0][1].code;\r",
+							"    const value = Object.entries(jsonData)[0][1].value\r",
+							"    pm.expect(code).to.be.a('string');\r",
+							"    pm.expect(value).to.be.a('number');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/v1/currency_value",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"currency_value"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Traer todos los valores de monedas",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/currency_value",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"currency_value"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.3 Python/3.12.4"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 10 Aug 2024 17:52:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "202"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"EUR\": {\n        \"code\": \"EUR\",\n        \"value\": 4441.183628731261\n    },\n    \"PEN\": {\n        \"code\": \"PEN\",\n        \"value\": 1089.9494993698456\n    },\n    \"USD\": {\n        \"code\": \"USD\",\n        \"value\": 4065.905068435281\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Crear una conversión de moneda [SUCCESS]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validations\", function () {\r",
+							"    console.log(directionVariable, currencyVariable)\r",
+							"    var jsonData = pm.response.json();\r",
+							"    const amount = jsonData.amount;\r",
+							"    const converted_amount = jsonData.converted_amount;\r",
+							"    const currency = jsonData.currency\r",
+							"    const direction = jsonData.direction\r",
+							"    pm.expect(amount).to.be.a('number');\r",
+							"    pm.expect(converted_amount).to.be.a('number');\r",
+							"    pm.expect(currency).to.be.a('string');\r",
+							"    pm.expect(direction).to.be.a('string');\r",
+							"    pm.expect(direction).contains(\"COP\")\r",
+							";\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/v1/convert?currency=USD&amount=1&direction=COP_to_currency",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"convert"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "USD"
+						},
+						{
+							"key": "amount",
+							"value": "1"
+						},
+						{
+							"key": "direction",
+							"value": "COP_to_currency"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Conversion de moneda a peso colombiano",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/convert?currency=USD&amount=1&direction=currency_to_COP",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"convert"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "USD"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								},
+								{
+									"key": "direction",
+									"value": "currency_to_COP"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.3 Python/3.12.4"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 10 Aug 2024 17:53:11 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "116"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"amount\": 1,\n    \"converted_amount\": 4065.905068435281,\n    \"currency\": \"USD\",\n    \"direction\": \"currency_to_COP\"\n}"
+				},
+				{
+					"name": "Conversion de peso colombiano a moneda",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/convert?currency=USD&amount=1&direction=COP_to_currency",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"convert"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "USD"
+								},
+								{
+									"key": "amount",
+									"value": "1"
+								},
+								{
+									"key": "direction",
+									"value": "COP_to_currency"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.3 Python/3.12.4"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 10 Aug 2024 17:53:32 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "111"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"amount\": 1,\n    \"converted_amount\": 0.0002459477,\n    \"currency\": \"USD\",\n    \"direction\": \"COP_to_currency\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Listar valores especificos [SUCCESS]",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Validations\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    const index = Object.entries(jsonData)[0][0];\r",
+							"    const code = Object.entries(jsonData)[0][1].code;\r",
+							"    const value = Object.entries(jsonData)[0][1].value\r",
+							"    pm.expect(index).to.equal(\"USD\")\r",
+							"    pm.expect(code).to.be.a(\"string\")\r",
+							"    pm.expect(value).to.be.a(\"number\")\r",
+							";\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:5000/api/v1/currency_value?currency=USD",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"v1",
+						"currency_value"
+					],
+					"query": [
+						{
+							"key": "currency",
+							"value": "USD"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Traer moneda especifica",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:5000/api/v1/currency_value?currency=USD",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"currency_value"
+							],
+							"query": [
+								{
+									"key": "currency",
+									"value": "USD"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/3.0.3 Python/3.12.4"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 10 Aug 2024 17:18:38 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "69"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"USD\": {\n        \"code\": \"USD\",\n        \"value\": 4065.905068435281\n    }\n}"
+				}
+			]
+		}
+	]
+}
